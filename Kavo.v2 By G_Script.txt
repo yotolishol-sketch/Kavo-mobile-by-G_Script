@@ -10,11 +10,19 @@ local run = game:GetService("RunService")
 
 local Utility = {}
 local Objects = {}
-function Kavo:DraggingEnabled(frame, parent)
+
+        
+    parent = parent or frame
+    
+    -- stolen from wally or kiriot, kek
+    local dragging = false
+    local dragInput, mousePos, framePos
+
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.Usfunction Kavo:DraggingEnabled(frame, parent)
     parent = parent or frame
     local dragging = false
     local dragInput, startPos, startFramePos
-
     frame.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             dragging = true
@@ -29,12 +37,14 @@ function Kavo:DraggingEnabled(frame, parent)
         end
     end)
 
+    -- ตรวจจับการเปลี่ยนแปลงของ input
     frame.InputChanged:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
             dragInput = input
         end
     end)
 
+    -- อัปเดตตำแหน่ง GUI
     game:GetService("UserInputService").InputChanged:Connect(function(input)
         if input == dragInput and dragging then
             local delta = input.Position - startPos
@@ -47,15 +57,8 @@ function Kavo:DraggingEnabled(frame, parent)
         end
     end)
 end
-        
-    parent = parent or frame
-    
-    -- stolen from wally or kiriot, kek
-    local dragging = false
-    local dragInput, mousePos, framePos
 
-    frame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+erInputType.MouseButton1 then
             dragging = true
             mousePos = input.Position
             framePos = parent.Position
